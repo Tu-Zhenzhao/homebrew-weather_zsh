@@ -10,7 +10,7 @@ class HomebrewWeatherZsh < Formula
 
   depends_on "jq"
 
-  def instal
+  def install
     bin.install 'weather'
     prefix.install "README.md"
     prefix.install "LICENSE"
