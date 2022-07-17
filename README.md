@@ -4,7 +4,7 @@
 
 Weather_zsh is a Shell Script for displaying the current weather conditions in terminal. 
 
-![Demo](/Users/tzz/Documents/weather_script/demo_weather.png)
+![Demo](https://github.com/Tu-Zhenzhao/homebrew-weather_zsh/blob/main/demo_weather.png)
 
 **Weather data from the `openweathermap` weather API**
 
