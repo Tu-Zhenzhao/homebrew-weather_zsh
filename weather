@@ -9,14 +9,43 @@ country=$(echo $IP | jq -r '.country')
 timezone=$(echo $IP | jq -r '.timezone')
 zip=$(echo $IP | jq -r '.postal')
 
+#help info
+Help()
+{
+				echo "this might help you use weather!"
+				echo "#####################################################################"
+				echo "#-h                                                                 #"
+				echo "#			check for Help                                                #"
+				echo "#-v                                                                 #"
+				echo "#			check Version                                                 #"
+				echo "#-n location                                                        #"
+				echo "#			name of the location                                          #"
+				echo "#-z zip_code                                                        #"
+				echo "#			zip code of your address                                      #"
+				echo "#-d city_id                                                         #"
+				echo "#			you are required to find your city id from the website below  #"
+				echo "#####################################################################"
+}
+
+#print the version
+Version()
+{
+				echo "v0.0.3"
+}
+
+
 #setting flag options
-while getopts "n:z:d:" arg; do
+while getopts "n:z:d:hv" arg; do
   case $arg in
-    n) Name=$OPTARG;;
-		z) Zip=$OPTARG;;
-		d) Id=$OPTARG;;
+					h) Help; exit;;
+					v) Version; exit;;
+					n) Name=$OPTARG;;
+					z) Zip=$OPTARG;;
+					d) Id=$OPTARG;;
   esac
 done
+
+
 
 #variables for local weather
 out_local=$(curl "https://api.openweathermap.org/data/2.5/weather?zip=$zip&appid=b50d1dba4625702a06311efea7a4ca0c&units=metric" -s)
