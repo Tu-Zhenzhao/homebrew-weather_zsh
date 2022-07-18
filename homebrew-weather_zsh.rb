@@ -16,3 +16,5 @@ class HomebrewWeatherZsh < Formula
     prefix.install "LICENSE"
   end
 end
+
+##v0.0.2
