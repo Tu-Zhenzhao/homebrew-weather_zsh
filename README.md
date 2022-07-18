@@ -40,11 +40,17 @@ Or you can do it manually by cloning the repository. After cloning the repo, you
 weather [-n Name_of_Location]
 	[-z ZIP_Code]
 	[-d City_ID]
+	[-v]
+	[-h]
 ```
 
 ### Options
 
 ```zsh
+-h 
+	reach out for help
+-v
+	check version
 -n location
 	name of the location
 -z zip_code
