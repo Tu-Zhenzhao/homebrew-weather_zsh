@@ -38,19 +38,19 @@ Or you can do it manually by cloning the repository. After cloning the repo, you
 
 ```zsh
 weather [-n Name_of_Location]
-				[-z ZIP_Code]
-				[-d City_ID]
+	[-z ZIP_Code]
+	[-d City_ID]
 ```
 
 ### Options
 
 ```zsh
 -n location
-				name of the location
+	name of the location
 -z zip_code
-				zip code of your address
+	zip code of your address
 -d city_id
-				you are required to find your city id from the website below
+	you are required to find your city id from the website below
 ```
 
 Check City ID: [City ID](http://bulk.openweathermap.org/sample/)
