@@ -30,7 +30,7 @@ Help()
 #print the version
 Version()
 {
-				echo "v0.0.3"
+				echo "v0.2.0"
 }
 
 
