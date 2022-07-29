@@ -13,30 +13,40 @@ zip=$(echo $IP | jq -r '.postal')
 Help()
 {
 				echo "this might help you use weather!"
-				echo "#####################################################################"
-				echo "#-h                                                                 #"
-				echo "#			check for Help                                                #"
-				echo "#-v                                                                 #"
-				echo "#			check Version                                                 #"
-				echo "#-n location                                                        #"
-				echo "#			name of the location                                          #"
-				echo "#-z zip_code                                                        #"
-				echo "#			zip code of your address                                      #"
-				echo "#-d city_id                                                         #"
-				echo "#			you are required to find your city id from the website below  #"
-				echo "#####################################################################"
+				echo "#######################################################################################"
+				echo "#-f 1~5                                                                "
+				echo "#			using forecastre function you can input 1-5 to check up to 5 days weather details"
+				echo "#-h                                                                 "
+				echo "#			check for Help                                                "
+				echo "#-v                                                                 "
+				echo "#			check Version                                                 "
+				echo "#-n location                                                        "
+				echo "#			name of the location                                          "
+				echo "#-z zip_code                                                        "
+				echo "#			zip code of your address                                      "
+				echo "#-d city_id                                                         "
+				echo "#			you are required to find your city id from the website below  "
+				echo "######################################################################################"
 }
 
 #print the version
 Version()
 {
-				echo "v0.2.0"
+				echo "v0.3.0"
 }
 
 
+TEST()
+{
+				echo "did it!"
+}
+
+
+
 #setting flag options
-while getopts "n:z:d:hv" arg; do
+while getopts "f:n:z:d:hv" arg; do
   case $arg in
+					f) Forecast=$OPTARG;;
 					h) Help; exit;;
 					v) Version; exit;;
 					n) Name=$OPTARG;;
@@ -44,7 +54,6 @@ while getopts "n:z:d:hv" arg; do
 					d) Id=$OPTARG;;
   esac
 done
-
 
 
 #variables for local weather
@@ -65,16 +74,19 @@ icon=$(echo "$out_local" | jq -r '.weather[0].icon')
 if [ "$Name" != "Empty" ]
 then
 				icon=$(echo "$name" | jq -r '.weather[0].icon')
+				forecast=$(curl "https://api.openweathermap.org/data/2.5/forecast?q=$Name&&appid=b50d1dba4625702a06311efea7a4ca0c&units=metric" -s)
 fi
 
 if [ "$Zip" != "Empty" ]
 then
 				icon=$(echo "$zip_code" | jq -r '.weather[0].icon')
+				forecast=$(curl "https://api.openweathermap.org/data/2.5/forecast?zip=$Zip&&appid=b50d1dba4625702a06311efea7a4ca0c&units=metric" -s)
 fi
 
 if [ "$Id" != "Empty" ]
 then
 				icon=$(echo "$id_address" | jq -r '.weather[0].icon')
+				forecast=$(curl "https://api.openweathermap.org/data/2.5/forecast?id=$Id&&appid=b50d1dba4625702a06311efea7a4ca0c&units=metric" -s)
 fi
 
 
@@ -170,6 +182,7 @@ fi
 
 #assign degree_sgin
 degree_sgin=$'\xc2\xb0'
+
 
 
 #print final info
@@ -327,10 +340,6 @@ fi
 
 
 
-
-
-
-
 echo $location
 echo $Icon
 echo $description
@@ -340,4 +349,60 @@ echo $max_temp
 echo $min_temp
 echo $sunrise
 echo $sunset
+
+
+#test if we need to print forecast or not 
+
+num=$(echo $forecast | jq -r '.cod')
+
+#displaying the aimed forecast
+if [ ! -z "$Forecast" ] && [ "$num" = 200 ]
+then 
+				for i in {0..`expr 8 \* $Forecast - 1`}
+				do
+								temp_fc=$(echo $forecast | jq -r ".list[$i].main.temp")
+								feel_temp_fc=$(echo $forecast | jq -r ".list[$i].main.feels_like")
+								time_fc=$(echo $forecast | jq -r ".list[$i].dt")
+								time=$(date -r $time_fc)
+								description_fc=$(echo $forecast | jq -r ".list[$i].weather[0].description")
+								echo "At $time the temperature are: $temp_fc $degree_sgin C , Feels like: $feel_temp_fc $degree_sgin C, Description: $description_fc"
+				done
+else
+				echo "No enough data, please check your input!"
+
+fi
+
+
+#displaying local forecast
+if [ "$Name" = "Empty" ] && [ "$Zip" = "Empty" ] && [ "$Id" = "Empty" ] && [ ! -z "$Forecast" ]
+then
+				if [ "$test_out_local" = 200 ]
+				then
+								  forecast=$(curl "https://api.openweathermap.org/data/2.5/forecast?zip=$zip&&appid=b50d1dba4625702a06311efea7a4ca0c&units=metric" -s)
+									for i in {0..`expr 8 \* $Forecast - 1`}
+									do
+													temp_fc=$(echo $forecast | jq -r ".list[$i].main.temp")
+												  feel_temp_fc=$(echo $forecast | jq -r ".list[$i].main.feels_like")
+												  time_fc=$(echo $forecast | jq -r ".list[$i].dt")
+												  time=$(date -r $time_fc)
+												  description_fc=$(echo $forecast | jq -r ".list[$i].weather[0].description")
+												  echo "At $time the temperature are: $temp_fc $degree_sgin C , Feels like: $feel_temp_fc $degree_sgin C, Description: $description_fc"
+								  done
+				else 
+								echo "No enough data, please check your input!"
+				fi
+fi
+
+
+
+
+
+
+
+
+
+
+
+
+
 
