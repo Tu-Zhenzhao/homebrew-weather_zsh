@@ -32,7 +32,7 @@ Help()
 #print the version
 Version()
 {
-				echo "v0.3.0"
+				echo "v0.3.1"
 }
 
 
@@ -89,96 +89,117 @@ then
 				forecast=$(curl "https://api.openweathermap.org/data/2.5/forecast?id=$Id&&appid=b50d1dba4625702a06311efea7a4ca0c&units=metric" -s)
 fi
 
+ICON_fun()
+{
+				if [ "$1" = "01d" ]
+				then
+								icon="☀️ "
+								echo $icon
+				fi
 
-if [ "$icon" = "01d" ]
-then
-				icon="☀️ "
-fi
+				if [ "$1" = "01n" ]
+				then
+								icon="🌑"
+								echo $icon
+				fi
 
-if [ "$icon" = "01n" ]
-then
-				icon="🌑"
-fi
+				if [ "$1" = "02d" ]
+				then
+								icon="⛅️"
+								echo $icon
+				fi
 
-if [ "$icon" = "02d" ]
-then
-				icon="⛅️"
-fi
+				if [ "$1" = "02d" ]
+				then
+								icon="🌥"
+								echo $icon
+				fi
 
-if [ "$icon" = "02d" ]
-then
-				icon="🌥"
-fi
+				if [ "$1" = "03d" ]
+				then
+							icon="☁️ "
+							echo $icon
+				fi
 
-if [ "$icon" = "03d" ]
-then
-				icon="☁️ "
-fi
+				if [ "$1" = "03n" ]
+				then
+								icon="☁️ "
+								echo $icon
+				fi
 
-if [ "$icon" = "03n" ]
-then
-				icon="☁️ "
-fi
+				if [ "$1" = "04d" ]
+				then
+								icon="☁️ 💨"
+								echo $icon
+				fi
 
-if [ "$icon" = "04d" ]
-then
-				icon="☁️ 💨"
-fi
+				if [ "$1" = "04n" ]
+				then
+								icon="☁️ 💨"
+								echo $icon
+				fi
 
-if [ "$icon" = "04n" ]
-then
-				icon="☁️ 💨"
-fi
+				if [ "$1" = "09d" ]
+				then
+								icon="🌧"
+								echo $icon
+				fi
 
-if [ "$icon" = "09d" ]
-then
-				icon="🌧"
-fi
+				if [ "$1" = "09n" ]
+				then
+								icon="🌧"
+								echo $icon
+				fi
 
-if [ "$icon" = "09n" ]
-then
-				icon="🌧"
-fi
+				if [ "$1" = "10d" ]
+				then
+								icon="🌦"
+								echo $icon
+				fi
 
-if [ "$icon" = "10d" ]
-then
-				icon="🌦"
-fi
+				if [ "$1" = "10n" ]
+				then
+								icon="🌦"
+								echo $icon
+				fi
 
-if [ "$icon" = "10n" ]
-then
-				icon="🌦"
-fi
+				if [ "$1" = "11d" ]
+				then
+								icon="🌩"
+								echo $icon
+				fi
 
-if [ "$icon" = "11d" ]
-then
-				icon="🌩"
-fi
+				if [ "$1" = "11n" ]
+				then
+								icon="🌩"
+								echo $icon
+				fi
 
-if [ "$icon" = "11n" ]
-then
-				icon="🌩"
-fi
+				if [ "$1" = "13d" ]
+				then
+								icon="❄️ "
+								echo $icon
+				fi
 
-if [ "$icon" = "13d" ]
-then
-				icon="❄️ "
-fi
+				if [ "$1" = "13n" ]
+				then
+								icon="❄️ "
+								echo $icon
+				fi
 
-if [ "$icon" = "13n" ]
-then
-				icon="❄️ "
-fi
+				if [ "$1" = "50d" ]
+				then
+								icon="🌫"
+								echo $icon
+				fi
 
-if [ "$icon" = "50d" ]
-then
-				icon="🌫"
-fi
+				if [ "$1" = "50n" ]
+				then
+								icon="🌫"
+								echo $icon
+				fi
 
-if [ "$icon" = "50n" ]
-then
-				icon="🌫"
-fi
+}
 
 #assign degree_sgin
 degree_sgin=$'\xc2\xb0'
@@ -196,7 +217,8 @@ then
 								Country=$(echo $name | jq -r '.sys.country')
 								location="Location: $Location, $Country"
 								###weather icon info
-								Icon="Weather Icon: $icon"
+								icon_info=$(ICON_fun $icon)
+								Icon="Weather Icon: $icon_info"
 								###weather description
 								Description=$(echo $name | jq -r '.weather[0].description')
 								description="Weather Description: $Description"
@@ -235,7 +257,8 @@ then
 								Country=$(echo $zip_code | jq -r '.sys.country')
 								location="Location: $Location, $Country"
 								###weather icon info
-								Icon="Weather Icon: $icon"
+								icon_info=$(ICON_fun $icon)
+								Icon="Weather Icon: $icon_info"
 								###weather description
 								Description=$(echo $zip_code | jq -r '.weather[0].description')
 								description="Weather Description: $Description"
@@ -273,7 +296,8 @@ then
 								Country=$(echo $id_address| jq -r '.sys.country')
 								location="Location: $Location, $Country"
 								###weather icon info
-								Icon="Weather Icon: $icon"
+								icon_info=$(ICON_fun $icon)
+								Icon="Weather Icon: $icon_info"
 								###weather description
 								Description=$(echo $id_address | jq -r '.weather[0].description')
 								description="Weather Description: $Description"
@@ -310,7 +334,8 @@ then
 								Country=$(echo $out_local | jq -r '.sys.country')
 								location="Location: $Location, $Country"
 								###weather icon info
-								Icon="Weather Icon: $icon"
+								icon_info=$(ICON_fun $icon)
+								Icon="Weather Icon: $icon_info"
 								###weather description
 								Description=$(echo $out_local | jq -r '.weather[0].description')
 								description="Weather Description: $Description"
@@ -365,11 +390,10 @@ then
 								time_fc=$(echo $forecast | jq -r ".list[$i].dt")
 								time=$(date -r $time_fc)
 								description_fc=$(echo $forecast | jq -r ".list[$i].weather[0].description")
-								echo "At $time the temperature are: $temp_fc $degree_sgin C , Feels like: $feel_temp_fc $degree_sgin C, Description: $description_fc"
+								Icon_fc=$(echo $forecast | jq -r ".list[$i].weather[0].icon")
+								icon_fc_info=$(ICON_fun $Icon_fc)
+								echo "At $time the temperature are: $temp_fc $degree_sgin C , Feels like: $feel_temp_fc $degree_sgin C, Description: $description_fc $icon_fc_info"
 				done
-else
-				echo "No enough data, please check your input!"
-
 fi
 
 
@@ -386,7 +410,9 @@ then
 												  time_fc=$(echo $forecast | jq -r ".list[$i].dt")
 												  time=$(date -r $time_fc)
 												  description_fc=$(echo $forecast | jq -r ".list[$i].weather[0].description")
-												  echo "At $time the temperature are: $temp_fc $degree_sgin C , Feels like: $feel_temp_fc $degree_sgin C, Description: $description_fc"
+												  Icon_fc=$(echo $forecast | jq -r ".list[$i].weather[0].icon")
+												  icon_fc_info=$(ICON_fun $Icon_fc)
+												  echo "At $time the temperature are: $temp_fc $degree_sgin C , Feels like: $feel_temp_fc $degree_sgin C, Description: $description_fc $icon_fc_info"
 								  done
 				else 
 								echo "No enough data, please check your input!"
