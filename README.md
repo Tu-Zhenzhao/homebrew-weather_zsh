@@ -40,6 +40,7 @@ Or you can do it manually by cloning the repository. After cloning the repo, you
 weather [-n Name_of_Location]
 	[-z ZIP_Code]
 	[-d City_ID]
+	[-f 1~5]
 	[-v]
 	[-h]
 ```
@@ -47,6 +48,8 @@ weather [-n Name_of_Location]
 ### Options
 
 ```zsh
+-f 
+	input how many days you want to do forecast, up to 5 days
 -h 
 	reach out for help
 -v
