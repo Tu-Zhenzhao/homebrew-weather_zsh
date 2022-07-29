@@ -4,8 +4,8 @@
 class HomebrewWeatherZsh < Formula
   desc "This is a weather shell script for you to check weather's info of any city you want."
   homepage ""
-  url "https://github.com/Tu-Zhenzhao/homebrew-weather_zsh/archive/refs/tags/v0.3.0.tar.gz"
-  sha256 "91f2a7f2f8dee3ba485ede1fcf30e3a593b2231a10ef06414483f4afc99c82e7"
+  url "https://github.com/Tu-Zhenzhao/homebrew-weather_zsh/archive/refs/tags/v0.3.1.tar.gz"
+  sha256 "00cd9f68a0d2418ccee028cac82d0e9f0f8de20af547dde8fd87a3d7daad53a3"
   license "MIT"
 
   depends_on "jq"
@@ -15,5 +15,4 @@ class HomebrewWeatherZsh < Formula
     prefix.install "README.md"
     prefix.install "LICENSE"
   end
-
 end
