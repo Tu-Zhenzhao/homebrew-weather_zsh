@@ -109,7 +109,7 @@ ICON_fun()
 								echo $icon
 				fi
 
-				if [ "$1" = "02d" ]
+				if [ "$1" = "02n" ]
 				then
 								icon="🌥"
 								echo $icon
@@ -117,8 +117,8 @@ ICON_fun()
 
 				if [ "$1" = "03d" ]
 				then
-							icon="☁️ "
-							echo $icon
+							  icon="☁️ "
+							  echo $icon
 				fi
 
 				if [ "$1" = "03n" ]
